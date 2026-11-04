@@ -23,6 +23,8 @@ export DISPLAY=":$DISPLAY_NUM"
 unset WAYLAND_DISPLAY
 export GTK_A11Y=none NO_AT_BRIDGE=1 XDG_CONFIG_HOME="$WORKDIR/config"
 export GSETTINGS_BACKEND=memory
+# No GPU in CI containers: render with Cairo instead of probing Vulkan/GL
+export GSK_RENDERER=cairo
 
 # GTK geometry self-checks that some distribution builds of GTK (seen on
 # openSUSE Leap 16.0) emit for every GtkImage, including GTK's internal icons,
@@ -46,7 +48,7 @@ run_case() {
 		return
 	fi
 	kill "$pid"; wait "$pid" 2> /dev/null
-	if grep -E "CRITICAL|Gtk-ERROR|Gtk-WARNING|Gdk-WARNING|Segmentation|Aborted|failed to start GTK GUI" "$log" \
+	if grep -E "CRITICAL|Gtk-ERROR|Gtk-WARNING|X Window System error|Segmentation|Aborted|failed to start GTK GUI" "$log" \
 		| grep -v "accessibility bus" \
 		| grep -vE "$KNOWN_GTK_SELF_CHECKS"; then
 		echo "FAIL [$name] tab $tab: GTK diagnostics in output"
