@@ -31,7 +31,7 @@ jobs:
           - { arch: x86_64,  label: ubuntu-24.04,     image: ubuntu:26.04 } # Resolute Raccoon
           # ARM64 (https://github.com/actions/partner-runner-images)
           - { arch: aarch64, label: ubuntu-24.04-arm, image: debian:12 } # Bookworm
-          - { arch: aarch64, label: ubuntu-24.04-arm, image: debian:12 } # Trixie
+          - { arch: aarch64, label: ubuntu-24.04-arm, image: debian:13 } # Trixie
           - { arch: aarch64, label: ubuntu-24.04-arm, image: fedora:43 }
           - { arch: aarch64, label: ubuntu-24.04-arm, image: fedora:44 }
           - { arch: aarch64, label: ubuntu-24.04-arm, image: opensuse/leap:16.0 }
@@ -44,17 +44,18 @@ jobs:
     steps:
     - name: Install prerequisites
       run: |
+        # Xvfb lets the GTK4 startup smoke test run instead of being skipped
         if command -v pacman; then
-          pacman -Syu --noconfirm sudo
+          pacman -Syu --noconfirm sudo xorg-server-xvfb
         elif command -v dnf; then
           dnf update -y
-          dnf install -y sudo
+          dnf install -y sudo xorg-x11-server-Xvfb
         elif command -v zypper; then
           zypper update -y
-          zypper install -y sudo tar gzip
+          zypper install -y sudo tar gzip xorg-x11-server-Xvfb
         elif command -v apt-get; then
           apt-get update -y -qq
-          apt-get install -y -qq sudo
+          apt-get install -y -qq sudo xvfb
         fi
 
     - uses: actions/checkout@v5
@@ -66,7 +67,7 @@ jobs:
       run: ./scripts/build_cpu_x.sh -s "$GITHUB_WORKSPACE" -t "$BUILD_TYPE"
 
     - name: Run tests
-      run: ninja -C build test
+      run: ctest --test-dir build --output-on-failure
 
     - name: Run CPU-X
       run: |

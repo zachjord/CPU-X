@@ -15,3 +15,10 @@ if(Python3_Interpreter_FOUND)
     add_custom_target(check_package_database
         COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/scripts/generate_package_database.py" --check)
 endif()
+
+# GTK4 startup smoke test (skipped when Xvfb is unavailable)
+if(WITH_GTK)
+    add_test(NAME test_gui_smoke
+        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/gui_smoke.sh" "$<TARGET_FILE:cpu-x>" "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(test_gui_smoke PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 120)
+endif()

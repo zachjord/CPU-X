@@ -82,8 +82,8 @@ case "$ID" in
 		download_file "https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/libxml2-mini-$PKG_TYPE"
 		download_file "https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/gdk-pixbuf2-mini-$PKG_TYPE"
 		download_file "https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/librsvg-mini-$PKG_TYPE"
-		download_file "https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/gtk3-mini-$PKG_TYPE"
-		sudo pacman -U --noconfirm "libxml2-mini-$PKG_TYPE" "gtk3-mini-$PKG_TYPE" "librsvg-mini-$PKG_TYPE" "gdk-pixbuf2-mini-$PKG_TYPE"
+		# GTK4 itself comes from the distribution (pulled in by gtkmm-4.0)
+		sudo pacman -U --noconfirm "libxml2-mini-$PKG_TYPE" "librsvg-mini-$PKG_TYPE" "gdk-pixbuf2-mini-$PKG_TYPE"
 		popd
 		;;
 
@@ -114,7 +114,6 @@ download_file "https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main
 	/usr/lib/libgirepository-*.so* \
 	/usr/lib/gvfs/* \
 	/usr/lib/gio/modules/libdconfsettings.so \
-	/usr/lib/gtk-*/*/immodules/*.so \
 	/usr/lib/gdk-pixbuf-*/*/loaders/*svg*
 ./lib4bin \
 	--strip \
