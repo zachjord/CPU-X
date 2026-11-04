@@ -134,6 +134,9 @@ static Gtk::Label *make_value_label()
 	label->set_selectable(true);
 	label->set_ellipsize(Pango::EllipsizeMode::END);
 	label->set_width_chars(4);
+	/* An ellipsized label still requests its full text as natural width; cap it so
+	 * long values (e.g. the instruction set list) ellipsize instead of widening the window */
+	label->set_max_width_chars(32);
 	label->add_css_class("cpux-value");
 	return label;
 }
@@ -256,6 +259,7 @@ Selector::Selector()
 		label->set_xalign(0.0);
 		label->set_ellipsize(Pango::EllipsizeMode::END);
 		label->set_width_chars(6);
+		label->set_max_width_chars(32);
 		item->set_child(*label);
 	});
 	factory->signal_bind().connect([](const Glib::RefPtr<Gtk::ListItem> &item)

@@ -46,7 +46,7 @@ run_case() {
 		return
 	fi
 	kill "$pid"; wait "$pid" 2> /dev/null
-	if grep -E "CRITICAL|Gtk-ERROR|Gtk-WARNING|Segmentation|Aborted|failed to start GTK GUI" "$log" \
+	if grep -E "CRITICAL|Gtk-ERROR|Gtk-WARNING|Gdk-WARNING|Segmentation|Aborted|failed to start GTK GUI" "$log" \
 		| grep -v "accessibility bus" \
 		| grep -vE "$KNOWN_GTK_SELF_CHECKS"; then
 		echo "FAIL [$name] tab $tab: GTK diagnostics in output"
