@@ -567,19 +567,37 @@ bool MainWindow::is_dark() const
 
 void MainWindow::apply_theme()
 {
-	static std::optional<bool> system_prefers_dark;
 	auto gtk_settings = Gtk::Settings::get_default();
 	if(!gtk_settings)
 		return;
-	if(!system_prefers_dark)
-		system_prefers_dark = gtk_settings->property_gtk_application_prefer_dark_theme().get_value();
+	GObject *object = G_OBJECT(gtk_settings->gobj());
+	const GtkTheme theme = get_theme_setting();
 
-	switch(get_theme_setting())
+	/* GTK >= 4.20 deprecates gtk-application-prefer-dark-theme in favour of
+	 * gtk-interface-color-scheme. Check the running library, not the headers,
+	 * since the binary may be built against an older GTK.
+	 * GtkInterfaceColorScheme values: 1 = default, 2 = dark, 3 = light. */
+	static constexpr const char *COLOR_SCHEME = "gtk-interface-color-scheme";
+	if(g_object_class_find_property(G_OBJECT_GET_CLASS(object), COLOR_SCHEME))
 	{
-		case LIGHT: gtk_settings->property_gtk_application_prefer_dark_theme() = false; break;
-		case DARK:  gtk_settings->property_gtk_application_prefer_dark_theme() = true;  break;
-		default:    gtk_settings->property_gtk_application_prefer_dark_theme() = *system_prefers_dark; break;
+		static std::optional<int> system_scheme;
+		if(!system_scheme)
+		{
+			int value = 0;
+			g_object_get(object, COLOR_SCHEME, &value, nullptr);
+			system_scheme = value;
+		}
+		const int scheme = (theme == LIGHT) ? 3 : (theme == DARK) ? 2 : *system_scheme;
+		g_object_set(object, COLOR_SCHEME, scheme, nullptr);
 	}
+	else
+	{
+		static std::optional<bool> system_prefers_dark;
+		if(!system_prefers_dark)
+			system_prefers_dark = gtk_settings->property_gtk_application_prefer_dark_theme().get_value();
+		gtk_settings->property_gtk_application_prefer_dark_theme() = (theme == LIGHT) ? false : (theme == DARK) ? true : *system_prefers_dark;
+	}
+
 	for(auto *bar : this->memory_bars)
 		bar->queue_draw();
 }
