@@ -17,6 +17,7 @@ jobs:
     name: ${{ matrix.os.image }} ${{ matrix.os.arch }} (Build)
     runs-on: ${{ matrix.os.label }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           # x86_64 (https://github.com/actions/runner-images/tree/main/images/ubuntu)

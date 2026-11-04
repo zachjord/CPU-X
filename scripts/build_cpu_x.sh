@@ -173,6 +173,7 @@ case "$ID" in
 			nasm \
 			gettext-tools \
 			gtkmm4-devel \
+			Mesa-libGL-devel \
 			libncurses6 \
 			ncurses-devel \
 			pciutils \
