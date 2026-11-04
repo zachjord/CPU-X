@@ -26,13 +26,6 @@ export GSETTINGS_BACKEND=memory
 # No GPU in CI containers: render with Cairo instead of probing Vulkan/GL
 export GSK_RENDERER=cairo
 
-# GTK geometry self-checks that some distribution builds of GTK (seen on
-# openSUSE Leap 16.0) emit for every GtkImage, including GTK's internal icons,
-# and for GTK-internal labels (e.g. tooltip windows). They are not caused by
-# CPU-X widgets: those are created through gtkmm and reported as gtkmm__Gtk*,
-# so warnings about them stay fatal.
-KNOWN_GTK_SELF_CHECKS='(gtkmm__)?GtkImage 0x[0-9a-f]+ reported baselines of minimum -2147483648 and natural -2147483648, but sizes of minimum [0-9]+ and natural [0-9]+\. Baselines must be inside the widget size\.|: Gtk(Label|Box) 0x[0-9a-f]+ \((label|box)\) reported min height [0-9]+ and natural height [0-9]+ in measure\(\) with for_size=-?[0-9]+; natural size must be >= min size'
-
 failures=0
 run_case() {
 	local name="$1" tab="$2"
@@ -49,8 +42,7 @@ run_case() {
 	fi
 	kill "$pid"; wait "$pid" 2> /dev/null
 	if grep -E "CRITICAL|Gtk-ERROR|Gtk-WARNING|X Window System error|Segmentation|Aborted|failed to start GTK GUI" "$log" \
-		| grep -v "accessibility bus" \
-		| grep -vE "$KNOWN_GTK_SELF_CHECKS"; then
+		| grep -v "accessibility bus"; then
 		echo "FAIL [$name] tab $tab: GTK diagnostics in output"
 		failures=$((failures + 1))
 		return

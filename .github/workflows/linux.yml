@@ -53,7 +53,9 @@ jobs:
           dnf install -y sudo xorg-x11-server-Xvfb
         elif command -v zypper; then
           zypper update -y
-          zypper install -y sudo tar gzip xorg-x11-server-Xvfb
+          # The minimal openSUSE image ships no fonts; without them Pango reports
+          # nonsensical metrics and GTK windows get impossible sizes under Xvfb
+          zypper install -y sudo tar gzip xorg-x11-server-Xvfb dejavu-fonts
         elif command -v apt-get; then
           apt-get update -y -qq
           apt-get install -y -qq sudo xvfb
