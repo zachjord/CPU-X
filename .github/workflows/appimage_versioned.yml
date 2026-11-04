@@ -1,9 +1,8 @@
 name: AppImage Versioned
 
+# Automatic AppImage releases on tags are disabled in this fork; run manually
+# from the Actions tab if an AppImage is needed.
 on:
-  push:
-    tags:
-      - v*
   workflow_dispatch:
     inputs:
       version:
