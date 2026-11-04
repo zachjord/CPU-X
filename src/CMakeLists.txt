@@ -9,14 +9,15 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 ### FIND REQUIRED LIBRAIRIES
 
-# GTK3+
+# GTK4 (gtkmm-4.0). 4.10 is the first release providing Gtk::AlertDialog and
+# non-deprecated replacements for GtkComboBoxText/GtkInfoBar/GtkMessageDialog.
 if(WITH_GTK)
-	pkg_check_modules(GTK3 REQUIRED gtkmm-3.0>=3.12.0)
-	if(GTK3_FOUND)
-		include_directories(${GTK3_INCLUDE_DIRS})
-		link_directories(${GTK3_LIBRARY_DIRS})
-		add_definitions(${GTK3_CFLAGS_OTHER})
-	endif(GTK3_FOUND)
+	pkg_check_modules(GTK4 REQUIRED gtkmm-4.0>=4.10.0)
+	if(GTK4_FOUND)
+		include_directories(${GTK4_INCLUDE_DIRS})
+		link_directories(${GTK4_LIBRARY_DIRS})
+		add_definitions(${GTK4_CFLAGS_OTHER})
+	endif(GTK4_FOUND)
 endif(WITH_GTK)
 
 # NCurses
@@ -146,7 +147,7 @@ endif(CPU_ISA_X86 AND WITH_BANDWIDTH)
 message("${BoldCyan}** ${CMAKE_PROJECT_NAME} ${PROJECT_VERSION}${GIT_REVISION} configuration (${CMAKE_SYSTEM_PROCESSOR}) **${ColourReset}")
 
 # UI libraries
-print_config("GTK"                 "${GTK3_VERSION}"            WITH_GTK)
+print_config("GTK"                 "${GTK4_VERSION}"            WITH_GTK)
 print_config("NCURSES"             "${NCURSES_VERSION}"         WITH_NCURSES)
 
 # Other libraries
@@ -209,14 +210,14 @@ add_executable(${DAEMON_EXEC}
 
 
 # Additional source files
-# GTK3+
-if(WITH_GTK AND GTK3_FOUND)
+# GTK4
+if(WITH_GTK AND GTK4_FOUND)
 	target_sources(${APP_EXEC}
 		PRIVATE
 		ui/gtk.cpp
 		ui/gtk.hpp
 	)
-endif(WITH_GTK AND GTK3_FOUND)
+endif(WITH_GTK AND GTK4_FOUND)
 
 # NCurses
 if(WITH_NCURSES AND NCURSES_FOUND)
@@ -367,7 +368,7 @@ target_link_libraries(${APP_EXEC}
 	${Backtrace_LIBRARIES}
 	std::filesystem
 
-	${GTK3_LIBRARIES}
+	${GTK4_LIBRARIES}
 	${CURSES_LIBRARIES}
 	${LIBCPUID_LIBRARIES}
 	${LIBPCI_LIBRARIES}

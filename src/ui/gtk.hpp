@@ -1,5 +1,6 @@
 /****************************************************************************
 *    Copyright © 2014-2025 The Tumultuous Unicorn Of Darkness
+*    Copyright © 2026 CPU-X fork contributors
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,23 +20,26 @@
 /*
 * PROJECT CPU-X
 * FILE ui/gtk.hpp
+*
+* GTK4 (gtkmm-4.0) graphical frontend.
+*
+* The widget tree is built in C++ rather than from a GtkBuilder file. Each
+* displayed value is bound through a getter that resolves the *currently
+* selected* core type, memory stick or graphics card at refresh time, so the
+* shared Data model never stores toolkit objects. Another frontend can follow
+* the same pattern without touching the backend.
 */
 
 #ifndef _UI_GTK_HPP_
 #define _UI_GTK_HPP_
 
-#include <gtkmm/window.h>
-#include <gtkmm/builder.h>
-#include <gtkmm/box.h>
-#include <gtkmm/button.h>
-#include <gtkmm/infobar.h>
-#include <gtkmm/label.h>
-#include <gtkmm/drawingarea.h>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <gtkmm.h>
 #include "data.hpp"
 
 #define APPLICATION_ID "io.github." PRGUSERNAME "." PRGNAME_LOW // https://developer.gnome.org/documentation/tutorials/application-id.html#guidelines-for-choosing-an-application-id
-#define FOOTER_GTK_COMBO_BOX_TEXT_MAX_WIDTH 60
-
 
 enum GtkTheme
 {
@@ -44,205 +48,126 @@ enum GtkTheme
 	DARK
 };
 
-struct ExtTab : public Object
+namespace cpux_gtk
 {
-	Gtk::Label *name;
 
-	ExtTab(Glib::RefPtr<Gtk::Builder> builder, const std::string name);
+using LabelGetter = std::function<const Label*()>;
+using FrameGetter = std::function<const ::Frame*()>;
+
+/* A titled group of name/value rows laid out on a grid.
+ * Rows are either full width or paired (two name/value pairs per line). */
+class InfoFrame : public Gtk::Frame
+{
+public:
+	explicit InfoFrame(FrameGetter title);
+	void add_row(LabelGetter getter, const char *tooltip = nullptr);
+	void add_pair(LabelGetter left, LabelGetter right, const char *left_tooltip = nullptr, const char *right_tooltip = nullptr);
+	/* Add an arbitrary value widget (switch, progress bar…) next to a name */
+	Gtk::Label *add_widget_row(Gtk::Widget &widget, bool expand_value = true);
+	void add_full_width(Gtk::Widget &widget);
+	void refresh();
+
+private:
+	struct Binding
+	{
+		LabelGetter getter;
+		const char *tooltip;
+		Gtk::Label *name;
+		Gtk::Label *value;
+	};
+	Binding make_binding(LabelGetter getter, const char *tooltip, int column, int row, int span);
+
+	FrameGetter title;
+	Gtk::Grid grid;
+	int next_row = 0;
+	std::vector<Binding> bindings;
 };
-#define EXT_TAB(tab) static_cast<ExtTab*>(tab.ext)
 
-struct ExtFrame : public Object
+/* A drop-down list of strings whose button ellipsizes long entries while the
+ * popup shows them in full. */
+class Selector : public Gtk::DropDown
 {
-	Gtk::Label *name;
+public:
+	Selector();
+	void set_items(const std::vector<std::string> &items, unsigned selected);
+	int get_selected_index() const;
+	sigc::signal<void(int)> signal_index_changed;
 
-	ExtFrame(Glib::RefPtr<Gtk::Builder> builder, const std::string name);
+private:
+	Glib::RefPtr<Gtk::StringList> list;
+	bool updating = false;
 };
-#define EXT_FRAME(frame) static_cast<ExtFrame*>(frame.ext)
 
-template <class T>
-struct ExtLabel : public Object
+class SettingsWindow;
+
+class MainWindow : public Gtk::ApplicationWindow
 {
-	Gtk::Label *name;
-	T *value;
+public:
+	MainWindow(Data &data);
+	~MainWindow() override;
+	void refresh_current_page();
+	void reload_preferences();
+	void apply_theme();
+	bool is_dark() const;
 
-	ExtLabel(Glib::RefPtr<Gtk::Builder> builder, const std::string name);
-};
-#define EXT_LABEL(label) static_cast<ExtLabel<Gtk::Label>*>(label.ext)
-#define EXT_LABEL_PROGRESS_BAR(label) static_cast<ExtLabel<Gtk::ProgressBar>*>(label.ext)
-#define EXT_LABEL_SWITCH(label) static_cast<ExtLabel<Gtk::Switch>*>(label.ext)
-#define EXT_LABEL_SPIN_BUTTON(label) static_cast<ExtLabel<Gtk::SpinButton>*>(label.ext)
-
-struct GtkData
-{
-	bool is_dark_theme = false;
 	Data &data;
 
-	/* Common */
-	Gtk::Window *mainwindow = nullptr;
-	Gtk::InfoBar *daemoninfobar = nullptr;
-	Gtk::Button *daemonbutton = nullptr;
-	Gtk::Label *labprgver = nullptr;
-	Gtk::Button *closebutton = nullptr;
-	Gtk::Notebook *notebook = nullptr;
+private:
+	Gtk::Widget &build_cpu_page();
+	Gtk::Widget &build_caches_page();
+	Gtk::Widget &build_motherboard_page();
+	Gtk::Widget &build_memory_page();
+	Gtk::Widget &build_system_page();
+	Gtk::Widget &build_graphics_page();
+	Gtk::Widget &build_bench_page();
+	Gtk::Widget &build_about_page();
+	Gtk::Widget &build_daemon_banner();
+	Gtk::Widget &build_footer();
+	void add_page(Gtk::Widget &content, const Tab &tab, TabNumber number);
+	void refresh_page(TabNumber page);
+	void refresh_all_pages();
+	void set_cpu_logo();
+	void draw_memory_bar(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height, int index);
+	void on_bench_toggled(bool fast, bool state);
+	void update_bench_controls();
+	void copy_report();
+	void start_refresh_timer();
+
+	Gtk::Box root {Gtk::Orientation::VERTICAL};
+	Gtk::Notebook notebook;
+	std::vector<std::pair<TabNumber, Gtk::Widget*>> pages;
+	std::vector<std::pair<TabNumber, InfoFrame*>> frames;
+	std::vector<std::pair<TabNumber, std::function<void()>>> extra_refresh;
 	sigc::connection refresh_handle;
+	std::unique_ptr<SettingsWindow> settings_window;
 
-	/* Settings */
-	Gtk::Window *settingswindow = nullptr;
-	Gtk::Button *settingsbutton = nullptr;
-	Gtk::Button *validatebutton = nullptr;
-	Gtk::Button *cancelbutton = nullptr;
-	Gtk::ComboBoxText *temperatureunit = nullptr;
-	Gtk::SpinButton *refreshtime = nullptr;
-	Gtk::ComboBoxText *theme = nullptr;
-	Gtk::ComboBoxText *defaulttab = nullptr;
-	Gtk::ComboBoxText *defaulttype = nullptr;
-	Gtk::ComboBoxText *defaultcore = nullptr;
-	Gtk::ComboBoxText *defaultcachetest = nullptr;
-	Gtk::ComboBoxText *defaultstick = nullptr;
-	Gtk::ComboBoxText *defaultcard = nullptr;
-	Gtk::CheckButton *cpuiddecimal = nullptr;
-	Gtk::CheckButton *startdaemon = nullptr;
+	/* Daemon banner */
+	Gtk::Revealer *daemon_revealer = nullptr;
+	Gtk::Button *daemon_button = nullptr;
 
-	GtkData(Glib::RefPtr<Gtk::Builder> builder, Data &data);
-	void get_widgets(Glib::RefPtr<Gtk::Builder> builder);
-	void check_theme_color();
-	void set_colors();
-	void set_logos();
-	void set_all_labels();
-	void set_signals();
-	void bind_settings();
-	bool grefresh();
+	/* CPU */
+	Gtk::Image *cpu_logo = nullptr;
+	Selector *cpu_type_selector = nullptr;
+	Selector *cpu_core_selector = nullptr;
 
-	/* Tab CPU */
-	struct ExtTabCpu : public ExtTab
-	{
-		Gtk::Image *logocpu = nullptr;
-		Gtk::ComboBoxText *activetype = nullptr;
-		Gtk::ComboBoxText *activecore = nullptr;
+	/* Caches / Memory / Graphics selectors */
+	Selector *cache_test_selector = nullptr;
+	Selector *stick_selector = nullptr;
+	Selector *card_selector = nullptr;
 
-		ExtTabCpu(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_CPU(cpu) static_cast<ExtTabCpu*>(cpu.ext)
-	void gtab_cpu();
-	void fill_box_active_type();
-	void fill_box_active_type(Gtk::ComboBoxText *comboboxtext);
-	void fill_box_active_core();
-	void fill_box_active_core(Gtk::ComboBoxText *comboboxtext);
-	void change_active_type();
-	void change_active_core();
+	/* System memory bars */
+	std::vector<Gtk::DrawingArea*> memory_bars;
 
-	/* Tab Caches */
-	struct ExtTabCaches : public ExtTab
-	{
-		Gtk::Grid *gridcaches = nullptr;
-		Gtk::ComboBoxText *activetest = nullptr;
-
-		ExtTabCaches(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_CACHES(caches) static_cast<ExtTabCaches*>(caches.ext)
-	void gtab_caches();
-	void fill_box_active_test();
-	void fill_box_active_test(Gtk::ComboBoxText *comboboxtext);
-	void change_active_test();
-
-	/* Tab Motherboard */
-	struct ExtTabMotherboard : public ExtTab
-	{
-		Gtk::Box *boxmotherboard = nullptr;
-
-		ExtTabMotherboard(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_MOTHERBOARD(motherboard) static_cast<ExtTabMotherboard*>(motherboard.ext)
-	void gtab_motherboard();
-
-	/* Tab Memory */
-	struct ExtTabMemory : public ExtTab
-	{
-		Gtk::ScrolledWindow *scrolledsticks = nullptr;
-		Gtk::ComboBoxText *activestick = nullptr;
-
-		ExtTabMemory(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_MEMORY(memory) static_cast<ExtTabMemory*>(memory.ext)
-	void gtab_memory();
-	void fill_box_active_stick();
-	void fill_box_active_stick(Gtk::ComboBoxText *comboboxtext);
-	void change_active_stick();
-
-	/* Tab System */
-	struct ExtTabSystem : public ExtTab
-	{
-		Gtk::DrawingArea *barused = nullptr;
-		Gtk::DrawingArea *barbuff = nullptr;
-		Gtk::DrawingArea *barcache = nullptr;
-		Gtk::DrawingArea *barfree = nullptr;
-		Gtk::DrawingArea *barswap = nullptr;
-
-		ExtTabSystem(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_SYSTEM(system) static_cast<ExtTabSystem*>(system.ext)
-	void gtab_system();
-	bool draw_bar_memory_used(const Cairo::RefPtr<Cairo::Context> &cr);
-	bool draw_bar_memory_buffers(const Cairo::RefPtr<Cairo::Context> &cr);
-	bool draw_bar_memory_cached(const Cairo::RefPtr<Cairo::Context> &cr);
-	bool draw_bar_memory_free(const Cairo::RefPtr<Cairo::Context> &cr);
-	bool draw_bar_memory_swap(const Cairo::RefPtr<Cairo::Context> &cr);
-	bool draw_bar_memory(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::DrawingArea *area, Gtk::Label *label, double before, double percent);
-
-	/* Tab Graphics */
-	struct ExtTabGraphics : public ExtTab
-	{
-		Gtk::ScrolledWindow *scrolledcards = nullptr;
-		Gtk::ComboBoxText *activecard = nullptr;
-
-		ExtTabGraphics(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_GRAPHICS(graphics) static_cast<ExtTabGraphics*>(graphics.ext)
-	void gtab_graphics();
-	void fill_box_active_card();
-	void fill_box_active_card(Gtk::ComboBoxText *comboboxtext);
-	void change_active_card();
-
-	/* Tab Bench */
-	struct ExtTabBench : public ExtTab
-	{
-		ExtTabBench(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_BENCH(bench) static_cast<ExtTabBench*>(bench.ext)
-	void gtab_bench();
-	bool start_bench_prime_slow(bool state);
-	bool start_bench_prime_fast(bool state);
-	void change_bench_sensitive(bool state);
-	void change_bench_duration();
-	void change_bench_threads();
-
-	/* Tab About */
-	struct ExtTabAbout : public ExtTab
-	{
-		Gtk::Image *logoprg = nullptr;
-		Gtk::Label *about_descr = nullptr;
-		Gtk::Label *about_version = nullptr;
-		Gtk::Label *about_author = nullptr;
-		Gtk::Label *about_website = nullptr;
-		Gtk::Label *license_copyright = nullptr;
-		Gtk::Label *license_name = nullptr;
-		Gtk::Label *license_warranty = nullptr;
-
-		ExtTabAbout(Glib::RefPtr<Gtk::Builder> builder);
-	};
-#define EXT_TAB_ABOUT(about) static_cast<ExtTabAbout*>(about.ext)
-	void gtab_about();
+	/* Bench */
+	Gtk::Switch *bench_slow_switch = nullptr;
+	Gtk::Switch *bench_fast_switch = nullptr;
+	Gtk::ProgressBar *bench_slow_bar = nullptr;
+	Gtk::ProgressBar *bench_fast_bar = nullptr;
+	Gtk::SpinButton *bench_duration = nullptr;
+	Gtk::SpinButton *bench_threads = nullptr;
+	bool bench_updating = false;
 };
 
-struct SettingsWindow
-{
-
-
-	SettingsWindow(Glib::RefPtr<Gtk::Builder> builder, Data &data);
-	void get_widgets(Glib::RefPtr<Gtk::Builder> builder);
-	void set_signals();
-};
-
+} // namespace cpux_gtk
 
 #endif /* _UI_GTK_HPP_ */

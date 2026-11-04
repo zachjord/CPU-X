@@ -37,28 +37,20 @@
 #endif /* HAS_LIBCPUID */
 
 
-class Object
-{
-};
-
 struct Tab
 {
 	const std::string name;
-	Object *ext;
 
 	Tab(std::string name);
-	void extend(Object *ext);
 	friend std::ostream& operator<<(std::ostream& os, const Tab& t);
 };
 
 struct Frame
 {
 	const std::string name;
-	Object *ext;
 
 	Frame();
 	Frame(std::string name);
-	void extend(Object *ext);
 	friend std::ostream& operator<<(std::ostream& os, const Frame& frame);
 };
 
@@ -72,10 +64,8 @@ struct Label
 {
 	const std::string name;
 	std::string value;
-	Object *ext;
 
 	Label(std::string name);
-	void extend(Object *ext);
 	friend std::ostream& operator<<(std::ostream& os, const Label& label);
 };
 

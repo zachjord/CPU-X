@@ -38,11 +38,6 @@ Tab::Tab(std::string name) : name(name)
 {
 }
 
-void Tab::extend(Object *ext)
-{
-	this->ext = ext;
-}
-
 std::ostream& operator<<(std::ostream& os, const Tab& tab)
 {
 	const char *col_start = Options::get_color() ? BOLD_BLUE : "";
@@ -60,11 +55,6 @@ Frame::Frame()
 
 Frame::Frame(std::string name) : name(name)
 {
-}
-
-void Frame::extend(Object *ext)
-{
-	this->ext = ext;
 }
 
 std::ostream& operator<<(std::ostream& os, const Frame& frame)
@@ -95,11 +85,6 @@ std::ostream& operator<<(std::ostream& os, const MetaFrame& metaframe)
 
 Label::Label(std::string name) : name(name), value("")
 {
-}
-
-void Label::extend(Object *ext)
-{
-	this->ext = ext;
 }
 
 std::ostream& operator<<(std::ostream& os, const Label& label)
