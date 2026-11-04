@@ -26,7 +26,7 @@
 #include <libcpuid/libcpuid.h>
 #include "options.hpp"
 #include "data.hpp"
-#include "databases.h"
+#include "package_match.hpp"
 #include "daemon/daemon.h"
 
 
@@ -244,6 +244,14 @@ int call_libcpuid_static(Data &data)
 		data.cpu.cpu_types[cpu_type].footer.threads.value          = std::to_string(cpu_id->num_logical_cpus);
 		data.cpu.cpu_types[cpu_type].footer.num_threads            = cpu_id->num_logical_cpus;
 		string_trim(data.cpu.cpu_types[cpu_type].processor.specification.value);
+		const Package_DB *package_db = cpu_id->vendor == VENDOR_AMD ? package_amd :
+		                               cpu_id->vendor == VENDOR_INTEL ? package_intel : nullptr;
+		if(package_db)
+		{
+			const auto match = cpu_package::lookup(package_db, cpu_id->cpu_codename, cpu_id->brand_str);
+			if(match.entry && match.entry->exact && match.entry->display_codename)
+				data.cpu.cpu_types[cpu_type].processor.codename.value = match.entry->display_codename;
+		}
 
 		/* Cache level 1 (instruction) */
 		if(cpu_id->l1_instruction_cache > 0)
@@ -377,45 +385,24 @@ int call_libcpuid_msr_dynamic(Data &data)
 /* If dmidecode fails to find CPU package, check in database */
 int cputab_package_fallback(Data &data)
 {
-	int i = -1;
 	const Package_DB *db;
-	const auto& cpu_type = data.cpu.get_selected_cpu_type();
-
-	if(cpu_type.processor.codename.value.empty() || cpu_type.processor.specification.value.empty())
-		return 1;
-
-	MSG_VERBOSE("%s", _("Finding CPU package in fallback mode"));
+	const auto& selected = data.cpu.get_selected_cpu_type().processor;
 	switch(data.cpu.vendor)
 	{
-		case VENDOR_AMD:   db = package_amd;     break;
-		case VENDOR_INTEL: db = package_intel;   break;
-		default:           return 2;
+		case VENDOR_AMD:   db = package_amd;   break;
+		case VENDOR_INTEL: db = package_intel; break;
+		default: return 2;
 	}
-
-	MSG_DEBUG("cputab_package_fallback: codename %26s, specification %36s => values to find",
-	          cpu_type.processor.codename.value.c_str(), cpu_type.processor.specification.value.c_str());
-	while(db[++i].socket != NULL)
+	const auto match = cpu_package::lookup(db, selected.codename.value, selected.specification.value);
+	if(match.entry)
 	{
-		const bool codename_defined = (db[i].codename != NULL);
-		const bool model_defined    = (db[i].model    != NULL);
-		const bool codename_matchs  = codename_defined && (cpu_type.processor.codename.value.find(db[i].codename)   != std::string::npos);
-		const bool model_matchs     = model_defined    && (cpu_type.processor.specification.value.find(db[i].model) != std::string::npos);
-
-		if((codename_matchs && model_matchs) || (codename_matchs && !model_defined) || (!codename_defined && model_matchs))
-		{
-			for(auto& cpu_type : data.cpu.cpu_types)
-				cpu_type.processor.package.value = db[i].socket;
-			MSG_DEBUG("cputab_package_fallback: codename %26s, specification %36s => entry #%03i matches",
-					db[i].codename, db[i].model, i);
-			return 0;
-		}
-		else
-			MSG_DEBUG("cputab_package_fallback: codename %26s, specification %36s => entry #%03i does not match",
-					db[i].codename, db[i].model, i);
+		for(auto& cpu_type : data.cpu.cpu_types)
+			cpu_type.processor.package.value = match.entry->socket;
+		MSG_DEBUG("CPU package fallback source: %s", match.entry->source);
+		return 0;
 	}
-
 	MSG_WARNING(_("Your CPU socket is not present in the database ==> %s, codename: %s"),
-		    cpu_type.processor.specification.value.c_str(), cpu_type.processor.codename.value.c_str());
+	            selected.specification.value.c_str(), selected.codename.value.c_str());
 	for(auto& cpu_type : data.cpu.cpu_types)
 		cpu_type.processor.package.value.clear();
 	return 3;
