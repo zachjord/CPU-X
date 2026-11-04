@@ -1,0 +1,20 @@
+name: Package database
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate records and generated output
+        run: |
+          python3 scripts/generate_package_database.py --check
+          python3 -m unittest discover -s tests -p 'test_package_database.py' -v
+      - name: Test matching without hardware or UI dependencies
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -Isrc tests/package_match.cpp -o /tmp/package-match
+          /tmp/package-match

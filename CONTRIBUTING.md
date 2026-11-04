@@ -10,7 +10,7 @@ If you want to translate CPU-X in your native tongue, please visit the [Weblate 
 
 ## Update databases
 
-When new CPUs are out, we need to add them in databases. You can find databases [here](src/core/databases.h). Also, please note CPU codenames are defined in [libcpuid](https://github.com/anrieff/libcpuid).  
+Package mappings live in [structured records](data/processors/packages.json). Do not edit the generated `src/core/databases.h` directly. See [the database guide](docs/processor-database.md) for validation, provenance, and regeneration. Also, please note CPU codenames are defined in [libcpuid](https://github.com/anrieff/libcpuid).
 Dumps can be found on [InstLatx64 website](http://users.atw.hu/instlatx64/). Latest dumps can be found on [this Git mirror](https://github.com/InstLatx64/InstLatx64/commits/master).
 
 ## Develop

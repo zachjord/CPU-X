@@ -5,3 +5,5 @@ packages
 .vscode
 .vagrant
 bandwidth.bmp
+
+__pycache__/

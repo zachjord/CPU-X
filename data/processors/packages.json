@@ -1,0 +1,1154 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "upstream": {
+      "type": "inherited",
+      "url": "https://github.com/zachjord/CPU-X/blob/bef2c44363f193ff844cfed41ac223a6ea5d57b7/src/core/databases.h",
+      "license": "GPL-3.0-or-later",
+      "note": "Imported without independent specification verification; copyright 2014-2025 The Tumultuous Unicorn Of Darkness."
+    },
+    "amd-7945hx": {
+      "type": "manufacturer",
+      "url": "https://www.amd.com/en/products/processors/laptop/ryzen/7000-series/amd-ryzen-9-7945hx.html",
+      "retrieved": "2026-11-04",
+      "note": "Factual model, codename and socket fields only."
+    }
+  },
+  "records": [
+    {
+      "vendor": "intel",
+      "codename": "Atom (Diamondville)",
+      "model": null,
+      "socket": "BGA 437",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": "Pentium D (SmithField)",
+      "model": null,
+      "socket": "LGA 775",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": "Pentium D (Presler)",
+      "model": null,
+      "socket": "LGA 775",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": "Bloomfield",
+      "model": null,
+      "socket": "LGA 1366",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM)2 Duo CPU E7400",
+      "socket": "LGA 775",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM)2 Quad CPU Q6600",
+      "socket": "LGA 775",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-2500K CPU",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Celeron(R) CPU G550T",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Celeron(R) CPU G1610",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Pentium(R) CPU G620",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Pentium(R) CPU G2030",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-2520M CPU",
+      "socket": "rPGA 988B",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-3360M CPU",
+      "socket": "rPGA 988B",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E31275",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E3-1230 V2",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-2860QM CPU",
+      "socket": "rPGA 988B",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-3740QM CPU",
+      "socket": "rPGA 988B",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-4300U CPU",
+      "socket": "BGA 1168",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-4600U CPU",
+      "socket": "BGA 1168",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-4790 CPU",
+      "socket": "LGA 1150",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-4930K CPU",
+      "socket": "LGA 2011",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-5775C CPU",
+      "socket": "LGA 1150",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-6560U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-6400 CPU",
+      "socket": "LGA 1151",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-7300U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-7820HQ CPU",
+      "socket": "BGA 1440",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-8250U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-8350U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-8550U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-8650U CPU",
+      "socket": "BGA 1356",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-9300H CPU",
+      "socket": "BGA 1440",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-9700 CPU",
+      "socket": "LGA 1151",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i9-9900K CPU",
+      "socket": "LGA 1151",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-10500 CPU",
+      "socket": "LGA 1200",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-1135G7",
+      "socket": "BGA 1449",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-1165G7",
+      "socket": "BGA 1449",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-11700K",
+      "socket": "LGA 1200",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i9-11900K",
+      "socket": "LGA 1200",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i3-1220P",
+      "socket": "BGA 1744",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-12400",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-12700H",
+      "socket": "BGA 1744",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-12700KF",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i9-12900K",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i9-12900HK",
+      "socket": "BGA 1744",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-13500T",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-13600T",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-13600K",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-13700K",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i9-13900K",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Celeron(R) CPU N2930",
+      "socket": "BGA 1170",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Celeron(R) CPU N3350",
+      "socket": "BGA 1296",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Celeron(R) N4000",
+      "socket": "BGA 1090",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i3-3240 CPU",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-3470 CPU",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i5-3570 CPU",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-4770 CPU",
+      "socket": "LGA 1155",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i3-4350 CPU",
+      "socket": "LGA 1150",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) Gold 5220 CPU",
+      "socket": "LGA 3647",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E5-2689",
+      "socket": "LGA 2011",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E5-2690 ",
+      "socket": "LGA 2011",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E5-2690 v2",
+      "socket": "LGA 2011",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E5-2690 v3",
+      "socket": "LGA 2011-3",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Xeon(R) CPU E5-2690 v4",
+      "socket": "LGA 2011-3",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) Ultra 9 285K",
+      "socket": "LGA 1851",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) Ultra 7 265K",
+      "socket": "LGA 1851",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) Ultra 5 245K",
+      "socket": "LGA 1851",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "intel",
+      "codename": null,
+      "model": "Intel(R) Core(TM) i7-14700KF",
+      "socket": "LGA 1700",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Athlon 64 FX X2 (Toledo)",
+      "model": null,
+      "socket": "939 (PGA-939)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Turion X2",
+      "model": "TL",
+      "socket": "S1g1 (PGA-638)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Turion X2",
+      "model": "TK",
+      "socket": "S1g1 (PGA-638)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Kuma",
+      "model": null,
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Agena",
+      "model": null,
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Toliman",
+      "model": null,
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Thuban",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Zosma",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Deneb",
+      "model": "AMD Phenom(tm) II X4 920",
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Deneb",
+      "model": "AMD Phenom(tm) II X4 940",
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Deneb",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Propus",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Heka",
+      "model": "AMD Phenom(tm) II X3 715",
+      "socket": "AM2+ (PGA-940)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Heka",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Callisto",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Rana",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Sargas",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Regor",
+      "model": null,
+      "socket": "AM3 (PGA-938)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Caspian",
+      "model": null,
+      "socket": "S1g3 (PGA-638)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Champlain",
+      "model": null,
+      "socket": "S1g4 (PGA-638)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Geneva",
+      "model": null,
+      "socket": "S1g4 (PGA-638)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Zambezi",
+      "model": null,
+      "socket": "AM3+ (PGA-942)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Vishera",
+      "model": null,
+      "socket": "AM3+ (PGA-942)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Kabini X4",
+      "model": "Athlon",
+      "socket": "AM1 (PGA-721)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Kabini X4",
+      "model": "Sempron",
+      "socket": "AM1 (PGA-721)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Trinity X4",
+      "model": null,
+      "socket": "FM2 (PGA-904)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "A-Series (Carrizo)",
+      "model": null,
+      "socket": "FM2+ (PGA-906)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Naples",
+      "model": null,
+      "socket": "SP3 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Whitehaven",
+      "model": null,
+      "socket": "SP3r2 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Summit Ridge",
+      "model": null,
+      "socket": "AM4 (PGA-1331)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Raven Ridge",
+      "model": null,
+      "socket": "FP5 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Dali",
+      "model": null,
+      "socket": "FP5 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Colfax",
+      "model": null,
+      "socket": "SP3r2 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Pinnacle Ridge",
+      "model": null,
+      "socket": "AM4 (PGA-1331)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Picasso",
+      "model": null,
+      "socket": "FP5 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Rome",
+      "model": null,
+      "socket": "SP3 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Castle Peak",
+      "model": null,
+      "socket": "SP3r2 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Matisse",
+      "model": null,
+      "socket": "AM4 (PGA-1331)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Renoir",
+      "model": null,
+      "socket": "FP6 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Lucienne",
+      "model": null,
+      "socket": "FP6 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Mendocino",
+      "model": null,
+      "socket": "FT6 (BGA)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Milan",
+      "model": null,
+      "socket": "SP3 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Chagall",
+      "model": null,
+      "socket": "sWRX8 (LGA-4094)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Vermeer",
+      "model": null,
+      "socket": "AM4 (PGA-1331)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Cezanne",
+      "model": null,
+      "socket": "FP6 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Rembrandt",
+      "model": null,
+      "socket": "FP7 (BGA-1140)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Genoa",
+      "model": null,
+      "socket": "SP5 (LGA-6096)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Storm Peak",
+      "model": null,
+      "socket": "sTR5 (LGA-4844)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Raphael",
+      "model": null,
+      "socket": "AM5 (LGA-1718)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Dragon Range",
+      "model": null,
+      "socket": "FL1 (BGA)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Phoenix",
+      "model": null,
+      "socket": "FP7/FP8",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Hawk Point",
+      "model": null,
+      "socket": "FP7/FP8",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Turin",
+      "model": null,
+      "socket": "SP5 (LGA-6096)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Shimada Peak",
+      "model": null,
+      "socket": "sTR5 (LGA-4844)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Granite Ridge",
+      "model": null,
+      "socket": "AM5 (LGA-1718)",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Strix Point",
+      "model": null,
+      "socket": "FP8",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Krackan Point",
+      "model": null,
+      "socket": "FP8",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": "Strix Halo",
+      "model": null,
+      "socket": "FP11",
+      "match": "legacy",
+      "source": "upstream",
+      "status": "inherited"
+    },
+    {
+      "vendor": "amd",
+      "codename": null,
+      "model": "AMD Ryzen 9 7945HX",
+      "socket": "FL1",
+      "match": "exact",
+      "source": "amd-7945hx",
+      "status": "manufacturer",
+      "display_codename": "Dragon Range"
+    }
+  ]
+}
