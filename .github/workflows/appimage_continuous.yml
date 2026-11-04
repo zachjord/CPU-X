@@ -1,12 +1,8 @@
 name: AppImage Continuous
 
+# Automatic AppImage builds are disabled in this fork; run manually from the
+# Actions tab if an AppImage is needed.
 on:
-  push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
-      - '*'
   workflow_dispatch:
 
 env:
