@@ -41,6 +41,16 @@ else
 	echo "os-release file is not present."
 	exit 1
 fi
+# The GTK4 interface needs gtkmm-4.0 >= 4.10. Older releases still build the
+# NCurses interface and the command-line dump.
+GTK_PACKAGES=('libgtkmm-4.0-dev')
+DEBIAN_PACKAGES=()
+if [[ "$ID" == "debian" && "${VERSION_ID:-}" == "12" ]] || [[ "$ID" == "ubuntu" && "${VERSION_ID:-}" == "22.04" ]]; then
+	echo "gtkmm-4.0 >= 4.10 is not available on $ID $VERSION_ID: building without the GTK interface"
+	GTK_PACKAGES=()
+	CMAKE_EXTRA_OPTIONS+=('-DWITH_GTK=OFF')
+fi
+
 echo "Install packages for $ID"
 case "$ID" in
 	arch|archarm)
@@ -57,7 +67,7 @@ case "$ID" in
 			glib2 \
 			glibc \
 			glibmm \
-			gtkmm3 \
+			gtkmm-4.0 \
 			libglvnd \
 			libsigc++ \
 			nasm \
@@ -84,8 +94,7 @@ case "$ID" in
 			nasm \
 			gawk \
 			gettext \
-			libgtkmm-3.0-1v5 \
-			libgtkmm-3.0-dev \
+			"${GTK_PACKAGES[@]}" \
 			libncurses6 \
 			libncurses-dev \
 			libpci3 \
@@ -112,8 +121,8 @@ case "$ID" in
 			nasm \
 			gettext \
 			gettext-devel \
-			gtkmm3.0 \
-			gtkmm3.0-devel \
+			gtkmm4.0 \
+			gtkmm4.0-devel \
 			ncurses-libs \
 			ncurses-devel \
 			pciutils \
@@ -138,7 +147,7 @@ case "$ID" in
 			pkgconf \
 			gettext \
 			nasm \
-			gtkmm30 \
+			gtkmm40 \
 			ncurses \
 			pciutils \
 			libglvnd \
@@ -163,8 +172,8 @@ case "$ID" in
 			pkg-config \
 			nasm \
 			gettext-tools \
-			libgtkmm-3_0-1 \
-			gtkmm3-devel \
+			gtkmm4-devel \
+			Mesa-libGL-devel \
 			libncurses6 \
 			ncurses-devel \
 			pciutils \
@@ -210,8 +219,7 @@ case "$ID" in
 			gettext \
 			libpolkit-gobject-1-dev \
 			adwaita-icon-theme \
-			libgtkmm-3.0-1v5 \
-			libgtkmm-3.0-dev \
+			"${GTK_PACKAGES[@]}" \
 			libncursesw6 \
 			libncurses-dev \
 			libpci3 \

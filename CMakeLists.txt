@@ -70,7 +70,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux" AND HAS_NO_PIE)
 endif(CMAKE_SYSTEM_NAME MATCHES "Linux" AND HAS_NO_PIE)
 
 # Options
-option(WITH_GTK           "Build support for GUI in GTK3+"                                    ON)
+option(WITH_GTK           "Build support for GUI in GTK4"                                     ON)
 option(WITH_NCURSES       "Build support for TUI in NCurses"                                  ON)
 option(WITH_GETTEXT       "Build support for internationalization"                            ON)
 option(WITH_LIBCPUID      "Use Libcpuid library"                                              ON)

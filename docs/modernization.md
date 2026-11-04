@@ -27,27 +27,55 @@ GTK3 compatibility frontend once the migration lands. Qt6 is deferred.
 * NCurses is separately selectable with `WITH_GTK=OFF`. Preserve this option and
   verify it without GTK dependencies at every shared-state change.
 
-## GTK4 implementation direction
+## GTK4 frontend (implemented)
 
-Prefer GTKmm4 to retain C++ idioms and minimize changes to signal/control logic.
-Use resizable, scrollable grids; selectable labels with full-value tooltips;
-frontend-owned bindings; GTK4 drawing callbacks and theme settings. Preserve
-CPU, caches, motherboard, memory, system, graphics, benchmarks and about pages,
-settings persistence and all selectors. Include Wayland/Sway and X11 startup,
-large-font scaling, live refresh, benchmark cancellation and daemon reload in
-acceptance checks. Do not remove GTK3 until its functional replacement is being
-implemented; this first database milestone does not add GTK3 compatibility code.
+GTK3/GTKmm3, the 6,246-line GtkBuilder file, the Glade project and the fixed-colour
+CSS files are removed. `src/ui/gtk.cpp` builds the window with gtkmm-4.0 (>= 4.10).
+
+Decisions:
+
+* **gtkmm-4.0, not the C API.** The rest of the program is C++17 and the old
+  frontend already used gtkmm signal/slot idioms; gtkmm keeps lifetimes managed
+  (`make_managed`) without a second language or manual GObject reference counting.
+* **Code-built widgets, no GtkBuilder.** The old XML fixed most label widths and
+  duplicated every label twice by ID. Pages are now composed from a small
+  `InfoFrame` (grid of name/value rows) whose rows are *getters* evaluated on each
+  refresh. Selected core type, stick or card changes therefore need no rebinding.
+* **No toolkit pointers in `Data`.** `Object` and the `ext` members of `Tab`,
+  `Frame` and `Label` are removed; the frontend owns all bindings. This is the
+  only backend change and is the seam a Qt6 frontend would reuse. No abstraction
+  layer or plugin system was added.
+* **Layout.** Value labels expand, ellipsize, are selectable (context menu copy) and
+  carry the full value as a tooltip. Every page scrolls in both directions, so the
+  window can be shrunk freely (tiling compositors such as Sway). There are no fixed
+  widget widths; only the CPU logo has a pixel size.
+* **Themes.** CSS only derives borders/backgrounds from `currentColor`. The theme
+  setting (Automatic/Light/Dark) maps to `gtk-application-prefer-dark-theme`.
+  Memory bar text uses the widget's foreground colour.
+* **Deprecated widgets avoided.** ComboBoxText → DropDown with an ellipsizing
+  factory; InfoBar → Revealer banner; MessageDialog → AlertDialog.
+* **Additions.** Copy the full report to the clipboard (button, Ctrl+Shift+C);
+  Ctrl+Q quits. A missing GSettings schema falls back to defaults.
+* **Packaging.** The polkit policy is now installed even with `WITH_GTK=OFF`,
+  because the NCurses interface also starts the daemon.
+* **Platforms.** Debian 12 (gtkmm 4.8) and Ubuntu 22.04 (gtkmm 4.6) cannot build
+  the GUI; `scripts/build_cpu_x.sh` builds them with `WITH_GTK=OFF`.
+
+Also fixed: `--tab` was always rejected (parsed before page visibility was
+initialised) and saved GSettings overrode command-line options.
 
 ## Remaining roadmap
 
-1. Build/run baseline and changed NCurses/CLI with libcpuid enabled; capture
-   7945HX raw CPUID for full identification regression.
-2. Implement and verify the full GTK4 replacement and remove GTK3 assets/deps.
-3. Evaluate machine-readable manufacturer/libcpuid sources and licenses; add
+1. Capture 7945HX raw CPUID (`cpu-x --issue-fmt` prints the serialized libcpuid data;
+   replay with `CPUX_CPUID_RAW=file`) for a full identification regression fixture.
+2. Evaluate machine-readable manufacturer/libcpuid sources and licenses; add
    imports, snapshots, conflict handling and proposed update automation.
-4. Review daemon peer authentication, command validation and IPC error paths;
+3. Review daemon peer authentication, command validation and IPC error paths;
    audit bundled dmidecode/Bandwidth modifications before dependency updates.
-5. Extend topology/hardware fixtures, daemon tests and GTK startup/control tests.
+4. Extend topology/hardware fixtures and daemon protocol tests.
+5. Verify the AppImage pipeline with GTK4 (script updated, not yet run).
+6. Fork identity: application ID, URLs and the upstream "not maintained" banner
+   still refer to the archived project.
 
 The package-data foundation is not a claim that the migration, source importers,
 daemon audit or full hardware regression suite is complete.
@@ -78,3 +106,24 @@ Reproduce the reduced terminal build with `WITH_GTK`, `WITH_GETTEXT`,
 `WITH_LIBSTATGRAB` and `WITH_BANDWIDTH` set to `OFF`; leave `WITH_LIBCPUID`,
 `WITH_NCURSES` and `WITH_DMIDECODE` enabled. Build and run `ctest --test-dir build
 --output-on-failure`, then `build/output/bin/cpu-x -D` and `-N`.
+
+## GTK4 verification (2026-11-04)
+
+Built with gtkmm 4.10.0 / GTK 4.14.5 (Ubuntu 24.04), GCC, Debug, no warnings, with
+NCurses, libpci, EGL, Vulkan, OpenCL, libproc2, dmidecode and Bandwidth enabled.
+libcpuid was **disabled** locally (only 0.6.4 is packaged; >= 0.8.0 is required),
+so CPU identification values were empty in these runs; CI builds libcpuid.
+
+* X11 (Xvfb): every tab started; light, dark (`Adwaita:dark`) and 16 pt font
+  screenshots showed no clipping or overlap; window shrinks with scrolling.
+* Wayland (headless Weston): GUI started and stayed running without diagnostics.
+  Screenshots were not possible with the headless renderer; Sway itself untested.
+* Driven with xdotool: prime (fast) benchmark ran to completion with live progress;
+  slow benchmark started and was cancelled; threads control locked while running.
+* Settings: theme and refresh time changed, applied live, persisted (keyfile
+  backend) and were honoured on relaunch; no-schema fallback works.
+* Copy report: clipboard holds the plain-text dump (no ANSI colours).
+* `WITH_GTK=OFF`: binary links no GTK/GLib libraries; `-D` dump and `-N` TUI work.
+* CTest: 5/5 passed, including the new `test_gui_smoke` (all tabs, no schema, dark).
+* Not exercised: privileged daemon start (no polkit/pkexec in the container),
+  real GPU/memory-stick/cache pages (no data in the container), HiDPI scale > 1.

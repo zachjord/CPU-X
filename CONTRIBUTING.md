@@ -95,17 +95,16 @@ mvwprintw2c(win, LINE_1, SizeInfo::tb, "%13s", "%s", data.system.os.kernel);
 ```
 In this example, it will display content of `data.system.os.kernel` at `LINE_1`, with label name on the left side.
 
-**3. In GTK+ 3 GUI**
+**3. In GTK4 GUI**
 
-You need to use [Glade](https://glade.gnome.org/) to edit UI. The UI file in under `data/` (e.g. `cpu-x-gtk-3.12.ui`).
-
-Two labels must be created at least:
-- one label to display the label name, with an ID like `TAB_labNEWLABEL` ;
-- a second label to display the label value, with an ID like `TAB_valNEWLABEL`.
-
-Then labels are filled from `gui_gtk.cpp` file:
-- bind widget (from UI) to an object in `get_widgets()` ;
-- set label by using `set_label_name_and_value()` in the appropriate `GtkData::gtab_XXX()` method.
+The GTK4 window is built in C++ (`src/ui/gtk.cpp`); there is no GtkBuilder/Glade file.
+Add a row to the appropriate `InfoFrame` in the matching `MainWindow::build_XXX_page()` method,
+with a getter returning the label to display:
+```cpp
+os->add_row([&system] { return &system.os.kernel; });
+```
+Getters are evaluated on every refresh, so they can follow the selected core type, memory stick or
+graphics card. Return `nullptr` to hide a row. Do not store toolkit objects in `Data`.
 
 **4. Verify**
 
@@ -129,14 +128,11 @@ This section describe how to add a new option. You can take a look on [this comm
    * in `cpux_options` list: add a new line entry
    * in `parse_arguments()`: retrieve value for option
 3. `data/io.github.thetumultuousunicornofdarkness.cpu-x.gschema.xml`: add a new key
-4. `data/cpu-x-gtk-3.12.ui`: open UI file in Glade and change Settings window
-5. `src/ui/gtk.hpp`: add a new widget in `struct GtkData`
-6. `src/ui/gtk.cpp`:
-   * `get_widgets()`: map UI widget to a C++ object
+4. `src/ui/gtk.cpp`:
    * `load_settings()`: map setting to an option
-   * `bind_settings()`: bind schema value to a C++ object
-   * `set_signals()`: handle signal when value is changed by user (note: the "OK" button in Settings window is handled by `this->validatebutton->signal_clicked().connect()`)
-7. Do something with your new option!
+   * `SettingsWindow`: add a widget in the constructor, read it in `load()` and write it in `save()`
+   * `MainWindow::reload_preferences()`: apply the new value to the running interface if needed
+5. Do something with your new option!
 
 ### Things to do
 

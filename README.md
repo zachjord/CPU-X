@@ -90,7 +90,7 @@ These dependencies are optional to **test** CPU-X:
 ### Build and run dependencies
 
 These dependencies are needed to **build²** and **run** CPU-X:
-* [Gtkmm3](https://www.gtkmm.org/en/index.html) (versions 3.12 to 3.24 are supported)  
+* [Gtkmm4](https://www.gtkmm.org/en/index.html) (version 4.10 or newer; optional, `-DWITH_GTK=OFF` builds the NCurses and dump modes only)  
 * [NCurses](https://www.gnu.org/software/ncurses/)  
 * [Libcpuid](http://libcpuid.sourceforge.net/) (version 0.8.0 or newer is needed)  
 * [Pciutils](https://mj.ucw.cz/sw/pciutils/)  
