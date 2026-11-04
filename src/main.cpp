@@ -494,6 +494,12 @@ int main(int argc, char *argv[])
 {
 	MSG_WARNING("%s", "THIS PROJECT IS NOT MAINTAINED ANYMORE.\nPlease read https://github.com/TheTumultuousUnicornOfDarkness/CPU-X/wiki/end-of-project for more details.");
 
+	/* Saved GUI settings are defaults; command-line options parsed afterwards take precedence */
+	Options::init_page_visibility();
+#if HAS_GTK
+	load_settings();
+#endif /* HAS_GTK */
+
 	/* Parse arguments */
 	std::list<std::string> args(argv, argv + argc);
 	parse_arguments(args);
@@ -506,12 +512,8 @@ int main(int argc, char *argv[])
 
 	/* Init variables */
 	Data data; // Note: must be done after set_locales() to translate all labels
-	Options::init_page_visibility();
 
 	/* Parse options */
-#if HAS_GTK
-	load_settings();
-#endif /* HAS_GTK */
 	check_environment_variables(data);
 	MSG_DEBUG("Started %s with PID %i", PRGNAME, getppid());
 	if(Options::get_output_type() > OUT_NO_CPUX)
